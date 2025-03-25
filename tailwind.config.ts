@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				mono: ['Roboto Mono', 'monospace'],
+				pixel: ['"Press Start 2P"', 'cursive'],
+				major: ['"Major Mono Display"', 'monospace'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -52,6 +58,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				theme: {
+					'purple': '#3B1A5C',
+					'pink': '#E94C89',
+					'dark': '#0F0F17',
+					'light': '#FFFFFF',
+					'gold': '#FFD700',
+					'blue': '#00BFFF',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -70,25 +84,38 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'pixel-fade-in': {
+					'0%': { opacity: '0', transform: 'scale(0.95)' },
+					'50%': { opacity: '0.5', transform: 'scale(0.97)' },
+					'100%': { opacity: '1', transform: 'scale(1)' }
+				},
+				'pixel-blink': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0' }
+				},
+				'pixel-float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-5px)' }
+				},
+				'shine': {
+					'0%': { backgroundPosition: '0% 50%' },
+					'100%': { backgroundPosition: '200% 50%' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pixel-fade-in': 'pixel-fade-in 0.5s ease-out',
+				'pixel-blink': 'pixel-blink 1.2s step-end infinite',
+				'pixel-float': 'pixel-float 3s ease-in-out infinite',
+				'shine': 'shine 3s linear infinite'
 			}
 		}
 	},
