@@ -1,12 +1,13 @@
 
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageSquare, FileText, BarChart3 } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, MessageSquare, FileText, BarChart3, LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -17,8 +18,12 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogout = () => {
+    // In a real app, this would clear auth tokens
+    navigate('/');
+  };
+
   const navLinks = [
-    { name: 'Home', path: '/' },
     { name: 'Chat', path: '/chat', icon: <MessageSquare className="w-4 h-4" /> },
     { name: 'Reports', path: '/reports', icon: <FileText className="w-4 h-4" /> },
     { name: 'Analytics', path: '/analytics', icon: <BarChart3 className="w-4 h-4" /> }
@@ -29,21 +34,15 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <div className="relative w-10 h-10 mr-2">
-              <div className="w-10 h-10 bg-theme-pink rounded-sm animate-pixel-float"></div>
-              <div className="absolute top-0 left-0 w-10 h-10 opacity-0 hover:opacity-100 transition-opacity">
-                <img 
-                  src="/lovable-uploads/671c37be-f7d5-4800-a90e-ae5de6a338f8.png" 
-                  alt="Logo" 
-                  className="w-10 h-10 pixel-perfect" 
-                />
-              </div>
+          <Link to="/chat" className="flex items-center">
+            <div className="w-8 h-8 mr-2">
+              <img 
+                src="/lovable-uploads/632c7713-ef1f-462e-8f53-223c2d8aa085.png" 
+                alt="Logo" 
+                className="w-8 h-8" 
+              />
             </div>
-            <div className="flex flex-col">
-              <span className="font-pixel text-lg text-theme-pink">Legal</span>
-              <span className="font-pixel text-sm text-theme-light">Insight</span>
-            </div>
+            <span className="font-pixel text-lg text-theme-pink">Tekno Insights</span>
           </Link>
           
           {/* Desktop Navigation */}
@@ -67,6 +66,14 @@ const Navbar = () => {
                 </span>
               </Link>
             ))}
+            
+            <button
+              onClick={handleLogout}
+              className="flex items-center text-theme-light hover:text-theme-pink transition-all duration-200"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              <span className="font-mono">Sign Out</span>
+            </button>
           </div>
           
           {/* Mobile Menu Button */}
@@ -97,6 +104,14 @@ const Navbar = () => {
                   <span className="font-mono">{link.name}</span>
                 </Link>
               ))}
+              
+              <button
+                onClick={handleLogout}
+                className="flex items-center py-2 text-theme-light hover:text-theme-pink transition-colors"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                <span className="font-mono">Sign Out</span>
+              </button>
             </div>
           </div>
         )}
