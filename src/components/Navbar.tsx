@@ -24,16 +24,16 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: 'Chat', path: '/chat', icon: <MessageSquare className="w-4 h-4" /> },
-    { name: 'Reports', path: '/reports', icon: <FileText className="w-4 h-4" /> },
-    { name: 'Analytics', path: '/analytics', icon: <BarChart3 className="w-4 h-4" /> }
+    { name: 'CHAT', path: '/chat', icon: <MessageSquare className="w-4 h-4" /> },
+    { name: 'REPORTS', path: '/reports', icon: <FileText className="w-4 h-4" /> },
+    { name: 'ANALYTICS', path: '/analytics', icon: <BarChart3 className="w-4 h-4" /> }
   ];
   
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-2 bg-theme-dark/90 backdrop-blur' : 'py-4 bg-transparent'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
-          {/* Logo */}
+          {/* Logo - Using transparent background logo */}
           <Link to="/chat" className="flex items-center">
             <div className="w-8 h-8 mr-2">
               <img 
@@ -42,7 +42,7 @@ const Navbar = () => {
                 className="w-8 h-8" 
               />
             </div>
-            <span className="font-pixel text-lg text-theme-pink">Tekno Insights</span>
+            <span className="font-pixel text-lg text-theme-pink">TEKNO INSIGHTS</span>
           </Link>
           
           {/* Desktop Navigation */}
@@ -72,7 +72,7 @@ const Navbar = () => {
               className="flex items-center text-theme-light hover:text-theme-pink transition-all duration-200"
             >
               <LogOut className="w-4 h-4 mr-2" />
-              <span className="font-mono">Sign Out</span>
+              <span className="font-mono">SIGN OUT</span>
             </button>
           </div>
           
@@ -110,7 +110,7 @@ const Navbar = () => {
                 className="flex items-center py-2 text-theme-light hover:text-theme-pink transition-colors"
               >
                 <LogOut className="w-4 h-4 mr-2" />
-                <span className="font-mono">Sign Out</span>
+                <span className="font-mono">SIGN OUT</span>
               </button>
             </div>
           </div>

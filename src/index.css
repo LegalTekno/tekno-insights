@@ -62,7 +62,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-pixel tracking-wide;
+    @apply font-pixel uppercase tracking-wide;
   }
 
   /* Pixel perfect edges */
@@ -75,41 +75,41 @@
   /* Retro terminal effect */
   .retro-terminal {
     @apply font-mono text-theme-light bg-theme-dark border-2 border-theme-purple p-4 rounded;
-    box-shadow: 0 0 10px rgba(233, 76, 137, 0.5), inset 0 0 10px rgba(233, 76, 137, 0.3);
+    box-shadow: 0 0 10px rgba(221, 81, 126, 0.5), inset 0 0 10px rgba(221, 81, 126, 0.3);
   }
 
   .pixel-border {
     @apply border-2 border-theme-purple;
-    box-shadow: 4px 4px 0 rgba(233, 76, 137, 0.8);
+    box-shadow: 4px 4px 0 rgba(221, 81, 126, 0.8);
   }
 
   .pixel-button {
     @apply font-pixel bg-theme-purple text-white px-4 py-2 border-2 border-theme-pink transition-all duration-200;
-    box-shadow: 4px 4px 0 #E94C89;
+    box-shadow: 4px 4px 0 #DD517E;
   }
 
   .pixel-button:hover {
     @apply translate-x-1 translate-y-1;
-    box-shadow: 2px 2px 0 #E94C89;
+    box-shadow: 2px 2px 0 #DD517E;
   }
 
   .gradient-text {
     @apply font-bold text-transparent bg-clip-text;
-    background-image: linear-gradient(90deg, #E94C89, #FFD700);
+    background-image: linear-gradient(90deg, #DD517E, #FA9F00);
   }
 
   .neon-border {
     @apply rounded border-2 border-theme-pink;
-    box-shadow: 0 0 5px #E94C89, 0 0 10px #E94C89, inset 0 0 5px #E94C89;
+    box-shadow: 0 0 5px #DD517E, 0 0 10px #DD517E, inset 0 0 5px #DD517E;
   }
 
   .shine-effect {
     background: linear-gradient(90deg, 
-      rgba(233, 76, 137, 0.7) 0%,
-      rgba(233, 76, 137, 0.9) 25%,
-      rgba(255, 215, 0, 0.9) 50%,
-      rgba(233, 76, 137, 0.9) 75%,
-      rgba(233, 76, 137, 0.7) 100%
+      rgba(221, 81, 126, 0.7) 0%,
+      rgba(221, 81, 126, 0.9) 25%,
+      rgba(250, 159, 0, 0.9) 50%,
+      rgba(221, 81, 126, 0.9) 75%,
+      rgba(221, 81, 126, 0.7) 100%
     );
     background-size: 200% auto;
     animation: shine 3s linear infinite;
@@ -118,3 +118,13 @@
     -webkit-text-fill-color: transparent;
   }
 }
+
+@keyframes shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+

@@ -26,22 +26,22 @@ const Analytics = () => {
     { name: 'IP Management', value: 9 },
   ];
   
-  // Colors for pie chart
-  const COLORS = ['#E94C89', '#3B1A5C', '#8A42B3', '#FFD700', '#00BFFF', '#7A297B'];
+  // Updated colors to match new theme
+  const COLORS = ['#DD517E', '#461E52', '#FA9F00', '#0196C1', '#FFD8AA', '#0F0F17'];
   
   // Filter options
   const filterOptions = [
-    { id: 'all', label: 'All Data' },
-    { id: 'funding', label: 'Funding' },
-    { id: 'deals', label: 'Deals' },
-    { id: 'market-share', label: 'Market Share' },
+    { id: 'all', label: 'ALL DATA' },
+    { id: 'funding', label: 'FUNDING' },
+    { id: 'deals', label: 'DEALS' },
+    { id: 'market-share', label: 'MARKET SHARE' },
   ];
 
   return (
     <div className="min-h-screen bg-theme-dark pt-24 px-4 pb-8">
       <div className="container mx-auto max-w-6xl">
         <div className="mb-8">
-          <h1 className="font-pixel text-3xl text-theme-pink mb-2">Market Analytics</h1>
+          <h1 className="font-pixel text-3xl text-theme-pink mb-2">MARKET ANALYTICS</h1>
           <p className="font-mono text-muted-foreground">
             Visual insights into legal tech funding, market share, and investment trends.
           </p>
@@ -67,7 +67,7 @@ const Analytics = () => {
           
           <button className="ml-4 flex items-center text-sm font-mono text-muted-foreground hover:text-white">
             <Filter className="w-4 h-4 mr-1" />
-            More Filters
+            MORE FILTERS
           </button>
         </div>
         
@@ -75,14 +75,14 @@ const Analytics = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Funding by Category */}
           <div className="bg-theme-dark border border-theme-purple rounded-lg p-6 animate-pixel-fade-in">
-            <h3 className="font-pixel text-lg text-theme-pink mb-6">Funding by Category ($M)</h3>
+            <h3 className="font-pixel text-lg text-theme-pink mb-6">FUNDING BY CATEGORY ($M)</h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={fundingData}
                   margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#3B1A5C" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#461E52" />
                   <XAxis 
                     dataKey="category" 
                     angle={-45} 
@@ -92,11 +92,11 @@ const Analytics = () => {
                   />
                   <YAxis tick={{ fill: '#9CA3AF' }} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0F0F17', borderColor: '#3B1A5C' }}
-                    labelStyle={{ color: '#E94C89' }}
+                    contentStyle={{ backgroundColor: '#0F0F17', borderColor: '#461E52' }}
+                    labelStyle={{ color: '#DD517E' }}
                   />
                   <Legend wrapperStyle={{ bottom: 0 }} />
-                  <Bar dataKey="funding" fill="#E94C89" name="Funding ($M)" />
+                  <Bar dataKey="funding" fill="#DD517E" name="Funding ($M)" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -104,7 +104,7 @@ const Analytics = () => {
           
           {/* Market Share */}
           <div className="bg-theme-dark border border-theme-purple rounded-lg p-6 animate-pixel-fade-in">
-            <h3 className="font-pixel text-lg text-theme-pink mb-6">Market Share by Category (%)</h3>
+            <h3 className="font-pixel text-lg text-theme-pink mb-6">MARKET SHARE BY CATEGORY (%)</h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -124,7 +124,7 @@ const Analytics = () => {
                   </Pie>
                   <Tooltip 
                     formatter={(value) => [`${value}%`, 'Market Share']}
-                    contentStyle={{ backgroundColor: '#0F0F17', borderColor: '#3B1A5C' }}
+                    contentStyle={{ backgroundColor: '#0F0F17', borderColor: '#461E52' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -133,14 +133,14 @@ const Analytics = () => {
           
           {/* Deals by Category */}
           <div className="bg-theme-dark border border-theme-purple rounded-lg p-6 animate-pixel-fade-in">
-            <h3 className="font-pixel text-lg text-theme-pink mb-6">Number of Deals by Category</h3>
+            <h3 className="font-pixel text-lg text-theme-pink mb-6">NUMBER OF DEALS BY CATEGORY</h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={fundingData}
                   margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#3B1A5C" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#461E52" />
                   <XAxis 
                     dataKey="category" 
                     angle={-45} 
@@ -150,11 +150,11 @@ const Analytics = () => {
                   />
                   <YAxis tick={{ fill: '#9CA3AF' }} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0F0F17', borderColor: '#3B1A5C' }}
-                    labelStyle={{ color: '#E94C89' }}
+                    contentStyle={{ backgroundColor: '#0F0F17', borderColor: '#461E52' }}
+                    labelStyle={{ color: '#DD517E' }}
                   />
                   <Legend wrapperStyle={{ bottom: 0 }} />
-                  <Bar dataKey="deals" fill="#8A42B3" name="Number of Deals" />
+                  <Bar dataKey="deals" fill="#FA9F00" name="Number of Deals" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -162,7 +162,7 @@ const Analytics = () => {
           
           {/* Investment Trends Card */}
           <div className="bg-theme-dark border border-theme-purple rounded-lg p-6 animate-pixel-fade-in">
-            <h3 className="font-pixel text-lg text-theme-pink mb-4">Top Investment Trends</h3>
+            <h3 className="font-pixel text-lg text-theme-pink mb-4">TOP INVESTMENT TRENDS</h3>
             
             <div className="space-y-4">
               {[
@@ -186,7 +186,7 @@ const Analytics = () => {
               ))}
               
               <button className="flex items-center text-theme-pink text-sm font-mono mt-4 hover:translate-x-1 transition-transform">
-                View All Trends <ArrowRight className="w-4 h-4 ml-1" />
+                VIEW ALL TRENDS <ArrowRight className="w-4 h-4 ml-1" />
               </button>
             </div>
           </div>
