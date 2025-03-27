@@ -33,11 +33,11 @@ const Navbar = () => {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-2 bg-theme-dark/90 backdrop-blur' : 'py-4 bg-transparent'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
-          {/* Logo - Using transparent background logo */}
+          {/* Logo - Using the "K" logo */}
           <Link to="/chat" className="flex items-center">
             <div className="w-8 h-8 mr-2">
               <img 
-                src="/lovable-uploads/632c7713-ef1f-462e-8f53-223c2d8aa085.png" 
+                src="/lovable-uploads/7b8b5a42-b669-4947-a309-b3107b4ef84c.png" 
                 alt="Logo" 
                 className="w-8 h-8" 
               />
