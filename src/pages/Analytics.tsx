@@ -1,4 +1,9 @@
+
 import Footer from '@/components/Footer';
+import FundingChart from '@/components/charts/FundingChart';
+import MarketSegmentChart from '@/components/charts/MarketSegmentChart';
+import GrowthChart from '@/components/charts/GrowthChart';
+import TopPerformersChart from '@/components/charts/TopPerformersChart';
 
 const Analytics = () => {
   return (
@@ -13,33 +18,32 @@ const Analytics = () => {
           </div>
           
           <div className="h-[calc(100vh-220px)] border border-theme-purple rounded-lg overflow-auto p-6">
-            {/* This section would contain the analytics visualizations */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-theme-dark border border-theme-purple rounded-lg p-4">
                 <h3 className="font-mono font-bold text-theme-light mb-4">FUNDING TRENDS</h3>
-                <div className="h-64 flex items-center justify-center border border-dashed border-theme-purple/50 rounded bg-theme-dark/50">
-                  <p className="text-muted-foreground font-mono text-sm">Interactive chart will be displayed here</p>
+                <div className="h-64">
+                  <FundingChart />
                 </div>
               </div>
               
               <div className="bg-theme-dark border border-theme-purple rounded-lg p-4">
                 <h3 className="font-mono font-bold text-theme-light mb-4">MARKET SEGMENTS</h3>
-                <div className="h-64 flex items-center justify-center border border-dashed border-theme-purple/50 rounded bg-theme-dark/50">
-                  <p className="text-muted-foreground font-mono text-sm">Interactive chart will be displayed here</p>
+                <div className="h-64">
+                  <MarketSegmentChart />
                 </div>
               </div>
               
               <div className="bg-theme-dark border border-theme-purple rounded-lg p-4">
                 <h3 className="font-mono font-bold text-theme-light mb-4">GROWTH METRICS</h3>
-                <div className="h-64 flex items-center justify-center border border-dashed border-theme-purple/50 rounded bg-theme-dark/50">
-                  <p className="text-muted-foreground font-mono text-sm">Interactive chart will be displayed here</p>
+                <div className="h-64">
+                  <GrowthChart />
                 </div>
               </div>
               
               <div className="bg-theme-dark border border-theme-purple rounded-lg p-4">
                 <h3 className="font-mono font-bold text-theme-light mb-4">TOP PERFORMERS</h3>
-                <div className="h-64 flex items-center justify-center border border-dashed border-theme-purple/50 rounded bg-theme-dark/50">
-                  <p className="text-muted-foreground font-mono text-sm">Interactive chart will be displayed here</p>
+                <div className="h-64">
+                  <TopPerformersChart />
                 </div>
               </div>
             </div>
