@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   LineChart, 
   Line, 
@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { mockMarketTrends } from '@/utils/mockData';
+import { fetchMarketTrendsData } from '@/utils/legalpioneers';
 
 const CHART_CONFIG = {
   growth: {
@@ -23,11 +24,56 @@ const CHART_CONFIG = {
 };
 
 const GrowthChart = () => {
-  // Transform data for the chart
-  const data = mockMarketTrends.map(trend => ({
-    name: trend.trend,
-    growth: trend.growthRate,
-  }));
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const trends = await fetchMarketTrendsData();
+        // Transform data for the chart
+        const chartData = trends
+          .sort((a, b) => b.growthRate - a.growthRate)
+          .map(trend => ({
+            name: trend.trend,
+            growth: trend.growthRate,
+          }));
+        
+        setData(chartData);
+      } catch (err) {
+        console.error('Error loading growth data:', err);
+        setError('Failed to load growth data');
+        // Fallback to mock data
+        setData(mockMarketTrends
+          .map(trend => ({
+            name: trend.trend,
+            growth: trend.growthRate,
+          }))
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="animate-pulse text-theme-light font-mono">Loading data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="text-red-500 font-mono">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <ChartContainer config={CHART_CONFIG} className="h-full w-full">

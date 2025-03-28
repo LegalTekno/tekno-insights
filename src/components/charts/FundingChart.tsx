@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BarChart, 
   Bar, 
@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { mockCompanies } from '@/utils/mockData';
+import { fetchLegalpioneerData } from '@/utils/legalpioneers';
 
 const CHART_CONFIG = {
   funding: {
@@ -22,11 +23,59 @@ const CHART_CONFIG = {
 };
 
 const FundingChart = () => {
-  // Transform data for the chart
-  const data = mockCompanies.map(company => ({
-    name: company.name,
-    funding: company.fundingTotal,
-  }));
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const companies = await fetchLegalpioneerData();
+        // Transform data for the chart
+        const chartData = companies
+          .filter(company => company.fundingTotal > 0)
+          .sort((a, b) => b.fundingTotal - a.fundingTotal)
+          .slice(0, 10) // Take top 10 companies by funding
+          .map(company => ({
+            name: company.name,
+            funding: company.fundingTotal,
+          }));
+        
+        setData(chartData);
+      } catch (err) {
+        console.error('Error loading funding data:', err);
+        setError('Failed to load funding data');
+        // Fallback to mock data
+        setData(mockCompanies
+          .sort((a, b) => b.fundingTotal - a.fundingTotal)
+          .map(company => ({
+            name: company.name,
+            funding: company.fundingTotal,
+          }))
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="animate-pulse text-theme-light font-mono">Loading data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="text-red-500 font-mono">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <ChartContainer config={CHART_CONFIG} className="h-full w-full">

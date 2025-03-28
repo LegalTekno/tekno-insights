@@ -1,28 +1,11 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { mockCompanies, mockCategories } from '@/utils/mockData';
+import { fetchLegalpioneerData } from '@/utils/legalpioneers';
 
-// Calculate data for pie chart based on company categories
-const calculateCategoryDistribution = () => {
-  const categoryCounts = {};
-  
-  mockCompanies.forEach(company => {
-    if (categoryCounts[company.category]) {
-      categoryCounts[company.category]++;
-    } else {
-      categoryCounts[company.category] = 1;
-    }
-  });
-  
-  return Object.entries(categoryCounts).map(([name, value]) => ({
-    name,
-    value,
-  }));
-};
-
-const COLORS = ['#DD517E', '#461E52', '#FA9F00', '#0196C1', '#FFD8AA'];
+const COLORS = ['#DD517E', '#461E52', '#FA9F00', '#0196C1', '#FFD8AA', '#8B5CF6', '#D946EF', '#F97316', '#0EA5E9'];
 
 const CHART_CONFIG = {
   segments: {
@@ -33,8 +16,65 @@ const CHART_CONFIG = {
   }
 };
 
+// Calculate data for pie chart based on company categories
+const calculateCategoryDistribution = (companies) => {
+  const categoryCounts = {};
+  
+  companies.forEach(company => {
+    if (categoryCounts[company.category]) {
+      categoryCounts[company.category]++;
+    } else {
+      categoryCounts[company.category] = 1;
+    }
+  });
+  
+  return Object.entries(categoryCounts)
+    .map(([name, value]) => ({
+      name,
+      value,
+    }))
+    .sort((a, b) => (b.value as number) - (a.value as number));
+};
+
 const MarketSegmentChart = () => {
-  const data = calculateCategoryDistribution();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const companies = await fetchLegalpioneerData();
+        const chartData = calculateCategoryDistribution(companies);
+        setData(chartData);
+      } catch (err) {
+        console.error('Error loading market segment data:', err);
+        setError('Failed to load market segment data');
+        // Fallback to mock data
+        setData(calculateCategoryDistribution(mockCompanies));
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="animate-pulse text-theme-light font-mono">Loading data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="text-red-500 font-mono">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <ChartContainer config={CHART_CONFIG} className="h-full w-full">
