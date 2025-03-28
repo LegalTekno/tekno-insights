@@ -1,9 +1,10 @@
 
 import { Link } from 'react-router-dom';
+import { datasetLastUpdated } from '@/utils/legalpioneers';
 
 const Footer = () => {
   return (
-    <footer className="bg-theme-dark border-t border-theme-purple py-8 px-4">
+    <footer className="bg-theme-dark border-t border-theme-purple py-6 px-4">
       <div className="container mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
@@ -34,6 +35,9 @@ const Footer = () => {
             </div>
             <div className="text-muted-foreground text-sm font-mono">
               © {new Date().getFullYear()} Legal Tekno. All rights reserved.
+            </div>
+            <div className="text-muted-foreground text-sm font-mono mt-1">
+              Dataset last updated: {datasetLastUpdated}
             </div>
           </div>
         </div>

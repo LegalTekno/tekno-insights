@@ -7,11 +7,13 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  ResponsiveContainer 
+  ResponsiveContainer,
+  Legend 
 } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { mockCompanies } from '@/utils/mockData';
 import { fetchLegalpioneerData } from '@/utils/legalpioneers';
+import { isWithinInterval, parseISO } from 'date-fns';
 
 const CHART_CONFIG = {
   revenue: {
@@ -28,15 +30,46 @@ const CHART_CONFIG = {
   }
 };
 
-const TopPerformersChart = () => {
+interface TopPerformersChartProps {
+  startDate?: Date;
+  endDate?: Date;
+}
+
+const TopPerformersChart = ({ startDate, endDate }: TopPerformersChartProps) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const companies = await fetchLegalpioneerData();
+        let companies = await fetchLegalpioneerData();
+        
+        // Filter by date range if provided
+        if (startDate && endDate) {
+          companies = companies.filter(company => {
+            // Check if the company has funding rounds within the date range
+            if (!company.fundingRounds || company.fundingRounds.length === 0) {
+              return false;
+            }
+            
+            return company.fundingRounds.some(round => {
+              const roundDate = parseISO(round.date);
+              return isWithinInterval(roundDate, { start: startDate, end: endDate });
+            });
+          });
+        }
+        
         // Filter out companies with no revenue data and sort by revenue
         const chartData = companies
           .filter(company => company.annualRevenue !== null)
@@ -69,7 +102,7 @@ const TopPerformersChart = () => {
     }
 
     loadData();
-  }, []);
+  }, [startDate, endDate]);
 
   if (loading) {
     return (
@@ -117,8 +150,20 @@ const TopPerformersChart = () => {
             />
           )}
         />
-        <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="valuation" fill="var(--color-valuation)" radius={[4, 4, 0, 0]} />
+        <Legend />
+        <Bar 
+          dataKey="revenue" 
+          fill="var(--color-revenue)" 
+          radius={[4, 4, 0, 0]} 
+          name="Revenue"
+          label={windowWidth > 768 ? { position: 'top', fill: '#CCCCCC', fontSize: 10 } : false}
+        />
+        <Bar 
+          dataKey="valuation" 
+          fill="var(--color-valuation)" 
+          radius={[4, 4, 0, 0]} 
+          name="Valuation"
+        />
       </BarChart>
     </ChartContainer>
   );

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegendContent } from '@/components/ui/chart';
 import { mockCompanies, mockCategories } from '@/utils/mockData';
 import { fetchLegalpioneerData } from '@/utils/legalpioneers';
 
@@ -40,6 +40,16 @@ const MarketSegmentChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -76,6 +86,9 @@ const MarketSegmentChart = () => {
     );
   }
 
+  // Dynamically adjust chart size based on window width
+  const chartSize = windowWidth < 640 ? 60 : (windowWidth < 1024 ? 80 : 100);
+
   return (
     <ChartContainer config={CHART_CONFIG} className="h-full w-full">
       <PieChart>
@@ -84,9 +97,10 @@ const MarketSegmentChart = () => {
           cx="50%"
           cy="50%"
           labelLine={false}
-          outerRadius={80}
+          outerRadius={chartSize}
           fill="#8884d8"
           dataKey="value"
+          label={({ name, percent }) => windowWidth > 768 ? `${name}: ${(percent * 100).toFixed(0)}%` : ''}
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -97,9 +111,15 @@ const MarketSegmentChart = () => {
             <ChartTooltipContent
               active={active}
               payload={payload}
-              formatter={(value, name) => [value, name]}
+              formatter={(value, name) => [`${value} Companies (${((value / data.reduce((acc, curr) => acc + (curr.value as number), 0)) * 100).toFixed(1)}%)`, name]}
             />
           )}
+        />
+        <Legend 
+          content={({ payload }) => <ChartLegendContent payload={payload} />}
+          layout={windowWidth < 768 ? "horizontal" : "vertical"}
+          verticalAlign="middle"
+          align={windowWidth < 768 ? "center" : "right"}
         />
       </PieChart>
     </ChartContainer>
