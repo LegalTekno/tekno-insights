@@ -15,7 +15,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell
+  Cell,
+  TooltipProps
 } from 'recharts';
 
 // Custom colors for the chart
@@ -44,6 +45,13 @@ interface ReportChartProps {
   metrics: string[];
 }
 
+// Define proper type for the CustomTooltip component
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+}
+
 const ReportChart = ({ data, chartType, metrics }: ReportChartProps) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -64,13 +72,13 @@ const ReportChart = ({ data, chartType, metrics }: ReportChartProps) => {
     const latestDataPoint = data[data.length - 1];
     
     return metrics.map((metric, index) => ({
-      name: METRIC_NAMES[metric] || metric,
+      name: METRIC_NAMES[metric as keyof typeof METRIC_NAMES] || metric,
       value: latestDataPoint[metric] || 0
     }));
   };
 
-  // Custom tooltip for all chart types
-  const CustomTooltip = ({ active, payload, label }) => {
+  // Custom tooltip for all chart types with proper type definition
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
     if (!active || !payload || !payload.length) return null;
     
     return (
@@ -120,7 +128,7 @@ const ReportChart = ({ data, chartType, metrics }: ReportChartProps) => {
                   dataKey={metric}
                   stroke={COLORS[index % COLORS.length]}
                   activeDot={{ r: 6 }}
-                  name={METRIC_NAMES[metric] || metric}
+                  name={METRIC_NAMES[metric as keyof typeof METRIC_NAMES] || metric}
                   label={showLabels ? {
                     position: 'top',
                     fontSize: 10,
@@ -149,7 +157,7 @@ const ReportChart = ({ data, chartType, metrics }: ReportChartProps) => {
                   key={metric}
                   dataKey={metric}
                   fill={COLORS[index % COLORS.length]}
-                  name={METRIC_NAMES[metric] || metric}
+                  name={METRIC_NAMES[metric as keyof typeof METRIC_NAMES] || metric}
                   label={showLabels ? {
                     position: 'top',
                     fontSize: 10,
@@ -207,7 +215,7 @@ const ReportChart = ({ data, chartType, metrics }: ReportChartProps) => {
                   fill={COLORS[index % COLORS.length]}
                   stroke={COLORS[index % COLORS.length]}
                   fillOpacity={0.3}
-                  name={METRIC_NAMES[metric] || metric}
+                  name={METRIC_NAMES[metric as keyof typeof METRIC_NAMES] || metric}
                 />
               ))}
             </AreaChart>

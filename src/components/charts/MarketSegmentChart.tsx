@@ -17,8 +17,8 @@ const CHART_CONFIG = {
 };
 
 // Calculate data for pie chart based on company categories
-const calculateCategoryDistribution = (companies) => {
-  const categoryCounts = {};
+const calculateCategoryDistribution = (companies: any[]) => {
+  const categoryCounts: Record<string, number> = {};
   
   companies.forEach(company => {
     if (categoryCounts[company.category]) {
@@ -33,11 +33,11 @@ const calculateCategoryDistribution = (companies) => {
       name,
       value,
     }))
-    .sort((a, b) => (b.value as number) - (a.value as number));
+    .sort((a, b) => b.value - a.value);
 };
 
 const MarketSegmentChart = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Array<{name: string, value: number}>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -111,7 +111,10 @@ const MarketSegmentChart = () => {
             <ChartTooltipContent
               active={active}
               payload={payload}
-              formatter={(value, name) => [`${value} Companies (${((value / data.reduce((acc, curr) => acc + (curr.value as number), 0)) * 100).toFixed(1)}%)`, name]}
+              formatter={(value: number, name: string) => {
+                const total = data.reduce((acc, curr) => acc + curr.value, 0);
+                return [`${value} Companies (${((value / total) * 100).toFixed(1)}%)`, name];
+              }}
             />
           )}
         />
